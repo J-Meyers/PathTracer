@@ -3,7 +3,7 @@ add_library(geometry
         ray.h
         orthonormal_basis.cpp
         orthonormal_basis.h
-        epsilon.h
+        constants.h
         transform_node.cpp
         transform_node.h
         bbox.cpp

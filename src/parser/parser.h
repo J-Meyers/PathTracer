@@ -6,5 +6,4 @@
 #define PATHTRACER_PARSER_H
 
 
-
 #endif // PATHTRACER_PARSER_H

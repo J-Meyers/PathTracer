@@ -6,23 +6,26 @@
 #include "scene_object.h"
 #include <optional>
 #include <vector>
+#include <memory>
 
 class Scene {
 public:
-  TransformNode root_;
+    TransformNode root_;
 
-  void add(Geometry *geometry);
+    void add(std::unique_ptr<Geometry> geometry);
 
-  std::optional<ISect> intersect(const Ray &ray) const;
-  const Camera &getCamera() const { return camera_; }
-  Camera &getCamera() { return camera_; }
+    std::optional<ISect> intersect(Ray &ray) const;
 
-  const BoundingBox &getBoundingBox() const { return bounding_box_; }
+    [[nodiscard]] const Camera &getCamera() const { return camera_; }
+
+    Camera &getCamera() { return camera_; }
+
+    [[nodiscard]] const BoundingBox &getBoundingBox() const { return bounding_box_; }
 
 private:
-  Camera camera_;
+    Camera camera_;
 
-  BoundingBox bounding_box_;
+    BoundingBox bounding_box_;
 
-  std::vector<std::unique_ptr<Geometry>> objects_;
+    std::vector<std::unique_ptr<Geometry>> objects_;
 };

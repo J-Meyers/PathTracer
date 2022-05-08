@@ -11,40 +11,45 @@ class Scene;
 
 class SceneElement {
 public:
-  virtual ~SceneElement() = default;
-  Scene *getScene() const { return scene; }
+    virtual ~SceneElement() = default;
+
+    [[nodiscard]] Scene *getScene() const { return scene_; }
 
 protected:
-  SceneElement(Scene *s) : scene(s) {}
-  Scene *scene; // Not using reference so object can be copied
+    explicit SceneElement(Scene *s) : scene_(s) {}
+
+    Scene *scene_; // Not using reference so object can be copied
 };
 
 class Geometry : public SceneElement {
 public:
-  Geometry(Scene *s) : SceneElement(s) {}
+    explicit Geometry(Scene *s) : SceneElement(s) {}
 
-  std::optional<ISect> intersect(const Ray &ray) const;
+    std::optional<ISect> intersect(Ray &ray) const;
 
-  virtual void computeBoundingBox();
-  virtual BoundingBox computeLocalBoundingBox() = 0;
-  const BoundingBox &getBoundingBox() const { return bounding_box_; }
+    virtual void computeBoundingBox();
 
-  void setTransform(TransformNode *transform) { transform_node_ = transform; }
+    virtual BoundingBox computeLocalBoundingBox() = 0;
+
+    [[nodiscard]] const BoundingBox &getBoundingBox() const { return bounding_box_; }
+
+    void setTransform(TransformNode *transform) { transform_node_ = transform; }
 
 protected:
-  virtual std::optional<ISect> intersectLocal(const Ray &ray) const = 0;
+    [[nodiscard]] virtual std::optional<ISect> intersectLocal(const Ray &ray) const = 0;
 
-  BoundingBox bounding_box_;
-  TransformNode *transform_node_ = nullptr;
+    BoundingBox bounding_box_;
+    TransformNode *transform_node_ = nullptr;
 };
 
 class SceneObject : public Geometry {
 public:
-  const Material &getMaterial() const { return *material_; }
-  void setMaterial(std::unique_ptr<Material> m) { material_ = std::move(m); }
+    [[nodiscard]] const Material &getMaterial() const { return *material_; }
+
+    void setMaterial(std::unique_ptr<Material> m) { material_ = std::move(m); }
 
 protected:
-  SceneObject(Scene *s, Material *m) : Geometry(s), material_(m) {}
+    SceneObject(Scene *s, Material *m) : Geometry(s), material_(m) {}
 
-  std::unique_ptr<Material> material_;
+    std::unique_ptr<Material> material_;
 };
