@@ -3,8 +3,17 @@
 #include <glm/vec3.hpp>
 
 class Ray {
-  Ray(const glm::vec3& pos, const glm::vec3& dir) : pos_(pos), dir_(dir) {}
+public:
+  constexpr Ray(const glm::vec3 &pos, const glm::vec3 &dir)
+      : pos_(pos), dir_(dir) {}
 
+  [[nodiscard]] constexpr glm::vec3 getPos() const { return pos_; }
+
+  [[nodiscard]] constexpr glm::vec3 getDir() const { return dir_; }
+
+  [[nodiscard]] constexpr glm::vec3 operator()(float t) const {
+    return pos_ + t * dir_;
+  }
 
 private:
   glm::vec3 pos_;
