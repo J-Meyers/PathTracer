@@ -2,6 +2,7 @@
 #pragma once
 
 #include <glm/vec3.hpp>
+#include "spectrum.h"
 
 class ISect {
 public:
@@ -18,8 +19,9 @@ public:
         t_ = t;
     }
 
+    Spectrum getSpectrum() const;
+
 private:
     glm::dvec3 face_normal_;
     double t_;
-
 };

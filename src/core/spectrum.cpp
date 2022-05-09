@@ -3,8 +3,8 @@
 void Spectrum::makeIntegrators() {
     int step = (endWaveLength - beginWaveLength) / numSamples; //assumes integer step
     for (int i = 0; i < numSamples; ++i) {
-        double left = beginWaveLength + i * step;
-        double right = beginWaveLength + (i + 1) * step;
+        int left = beginWaveLength + i * step;
+        int right = beginWaveLength + (i + 1) * step;
 
         XIntegrator[i] = average(CIE_lambda, CIE_X, left, right);
         YIntegrator[i] = average(CIE_lambda, CIE_Y, left, right);

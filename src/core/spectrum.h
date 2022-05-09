@@ -13,7 +13,7 @@ public:
     static constexpr int endWaveLength = 700;
     static constexpr int numSamples = 60;
 
-    Spectrum(double initVal) : intensity() {
+    explicit Spectrum(double initVal) : intensity() {
         std::fill(intensity.begin(), intensity.end(), initVal);
     }
 
@@ -52,6 +52,19 @@ public:
     Spectrum operator-(const Spectrum &other) const {
         Spectrum out = *this;
         out -= other;
+        return out;
+    }
+
+    Spectrum &operator*=(double f) {
+        for (int i = 0; i < numSamples; ++i) {
+            intensity[i] *= f;
+        }
+        return *this;
+    }
+
+    Spectrum operator*(double f) const {
+        Spectrum out = *this;
+        out *= f;
         return out;
     }
 
@@ -113,12 +126,12 @@ public:
         makeIntegrators();
     }
 
-    glm::dvec3 toRGB() const;
+    [[nodiscard]] glm::dvec3 toRGB() const;
 
 private:
     std::array<double, numSamples> intensity; // spans [400 nm, 700 nm] uniformly
 
-    glm::dvec3 toXYZ() const;
+    [[nodiscard]] glm::dvec3 toXYZ() const;
 
     //turn integration of spectrum in to linear combination of samples
     static Spectrum XIntegrator;
