@@ -8,7 +8,8 @@
 
 class Spectrum {
 public:
-    // assumes all instances of Spectrum have the same number of samples
+  Spectrum() = default;
+  // assumes all instances of Spectrum have the same number of samples
     static constexpr int beginWaveLength = 400;
     static constexpr int endWaveLength = 700;
     static constexpr int numSamples = 60;
@@ -129,18 +130,18 @@ public:
     [[nodiscard]] glm::dvec3 toRGB() const;
 
 private:
-    std::array<double, numSamples> intensity; // spans [400 nm, 700 nm] uniformly
+    std::array<double, numSamples>
+        intensity; // spans [400 nm, 700 nm] uniformly
 
     [[nodiscard]] glm::dvec3 toXYZ() const;
 
-    //turn integration of spectrum in to linear combination of samples
-    static Spectrum XIntegrator;
-    static Spectrum YIntegrator;
-    static Spectrum ZIntegrator;
-
     static void makeIntegrators();
 
-    static double average(std::array<int, nCIESamples> wavelength, std::array<double, nCIESamples> weights, int left,
+    static double average(std::array<int, nCIESamples> wavelength,
+                          std::array<double, nCIESamples> weights, int left,
                           int right);
 };
 
+extern Spectrum XIntegrator;
+extern Spectrum YIntegrator;
+extern Spectrum ZIntegrator;

@@ -14,7 +14,7 @@ add_library(core
         scene_object.cpp
         scene_object.h
         spectrum.cpp
-        spectrum.h)
+        spectrum.h sphere.cpp sphere.h trimesh.cpp trimesh.h)
 
 target_include_directories(core INTERFACE ..)
 target_link_libraries(core geometry)

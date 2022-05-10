@@ -67,8 +67,6 @@ public:
     // in tMax and return true, else return false.
     bool intersect(const Ray &r, double &tMin, double &tMax) const;
 
-    void operator=(const BoundingBox &target);
-
     double area();
 
     double volume();

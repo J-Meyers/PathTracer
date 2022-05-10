@@ -3,11 +3,11 @@
 #include "geometry/bbox.h"
 #include "geometry/ray.h"
 #include "geometry/transform_node.h"
-#include "isect.h"
 #include "material.h"
 #include <optional>
 
 class Scene;
+class ISect;
 
 class SceneElement {
 public:
@@ -46,10 +46,9 @@ class SceneObject : public Geometry {
 public:
     [[nodiscard]] const Material &getMaterial() const { return *material_; }
 
-    void setMaterial(std::unique_ptr<Material> m) { material_ = std::move(m); }
+    void setMaterial(Material *m) { material_ = m; }
 
-protected:
+  protected:
     SceneObject(Scene *s, Material *m) : Geometry(s), material_(m) {}
-
-    std::unique_ptr<Material> material_;
+    Material *material_;
 };

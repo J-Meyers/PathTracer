@@ -1,15 +1,20 @@
 #include "spectrum.h"
 
-void Spectrum::makeIntegrators() {
-    int step = (endWaveLength - beginWaveLength) / numSamples; //assumes integer step
-    for (int i = 0; i < numSamples; ++i) {
-        int left = beginWaveLength + i * step;
-        int right = beginWaveLength + (i + 1) * step;
+Spectrum XIntegrator{};
+Spectrum YIntegrator{};
+Spectrum ZIntegrator{};
 
-        XIntegrator[i] = average(CIE_lambda, CIE_X, left, right);
-        YIntegrator[i] = average(CIE_lambda, CIE_Y, left, right);
-        ZIntegrator[i] = average(CIE_lambda, CIE_Z, left, right);
-    }
+void Spectrum::makeIntegrators() {
+  int step =
+      (endWaveLength - beginWaveLength) / numSamples; // assumes integer step
+  for (int i = 0; i < numSamples; ++i) {
+    int left = beginWaveLength + i * step;
+    int right = beginWaveLength + (i + 1) * step;
+
+    XIntegrator[i] = average(CIE_lambda, CIE_X, left, right);
+    YIntegrator[i] = average(CIE_lambda, CIE_Y, left, right);
+    ZIntegrator[i] = average(CIE_lambda, CIE_Z, left, right);
+  }
 }
 
 //numerical integration of the spectrum to convert it to XYZ

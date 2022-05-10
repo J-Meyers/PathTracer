@@ -32,7 +32,7 @@ std::optional<ISect> Geometry::intersect(Ray &r) const {
     if (i.has_value()) {
         // Transform the intersection point & normal returned back into
         // global space.
-        i->setN(transform_node_->localToGlobalNormal(i.getN()));
+        i->setN(transform_node_->localToGlobalNormal(i->getN()));
         i->setT(i->getT() / length);
     }
     return i;

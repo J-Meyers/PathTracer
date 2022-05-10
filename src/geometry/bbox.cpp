@@ -66,15 +66,6 @@ bool BoundingBox::intersect(const Ray &r, double &tMin, double &tMax) const {
     return true; // it made it past all 3 axes.
 }
 
-void BoundingBox::operator=(const BoundingBox &target) {
-    bmin = target.bmin;
-    bmax = target.bmax;
-    bArea = target.bArea;
-    bVolume = target.bVolume;
-    dirty = target.dirty;
-    bEmpty = target.bEmpty;
-}
-
 double BoundingBox::area() {
     if (bEmpty)
         return 0.0;

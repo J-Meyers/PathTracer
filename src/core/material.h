@@ -1,20 +1,26 @@
 
 #pragma once
 
-#include "spectrum.h"
 #include "geometry/ray.h"
+#include "spectrum.h"
 
-struct BSSRDF {
-};
+struct BSSRDF {};
 
 class Material {
-    virtual ~Material() = default;
+public:
+  virtual ~Material() = default;
 
-    [[nodiscard]] virtual Spectrum sample(const Ray &ray) const = 0;
+  [[nodiscard]] virtual Spectrum sample(const Ray &ray) const = 0;
 };
 
 class MaterialInteraction {
-    [[nodiscard]] Spectrum sample(const Ray &ray);
+  [[nodiscard]] Spectrum sample(const Ray &ray);
 
-    Material *m;
+  Material *m;
+};
+
+class DummyMaterial : public Material {
+  [[nodiscard]] Spectrum sample(const Ray &) const override {
+    return Spectrum(1.0);
+  }
 };
