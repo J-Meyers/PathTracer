@@ -14,14 +14,12 @@ Camera::Camera(const glm::vec3 &eye, const glm::vec3 &look, const glm::vec3 &up,
 Ray Camera::rayThroughPixel(int pixel_x, int pixel_y) const {
   pixel_x -= width_ / 2;
   pixel_y -= height_ / 2;
-  std::cout << "pixel: " << pixel_x << " " << pixel_y << std::endl;
   double x = (pixel_x + .5) * width_inv_;
   double y = (pixel_y + .5) * height_inv_;
   return rayThroughPoint(x, y);
 }
 
 Ray Camera::rayThroughPoint(double x, double y) const {
-  std::cout << "point: " << x << ", " << y << std::endl;
   // x and y are in [-0.5, -0.5]
   glm::dvec3 point{-x * aspect_ratio_, -y, distance_to_plane_};
   glm::dvec3 dir = glm::normalize(rotation_ * point);

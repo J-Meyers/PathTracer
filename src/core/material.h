@@ -21,6 +21,6 @@ class MaterialInteraction {
 
 class DummyMaterial : public Material {
   [[nodiscard]] Spectrum sample(const Ray &) const override {
-    return Spectrum(1.0);
+    return Spectrum(.02);
   }
 };

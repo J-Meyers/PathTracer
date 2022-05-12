@@ -21,6 +21,8 @@ public:
 
   void setObj(SceneObject *o) { obj_ = o; }
 
+  void setSpectrum(const Spectrum &s) { spectrum_ = s; }
+
   [[nodiscard]] Spectrum getSpectrum() const { return spectrum_; }
 
 private:

@@ -1,5 +1,7 @@
 #include "spectrum.h"
 
+#include <iostream>
+
 Spectrum XIntegrator{};
 Spectrum YIntegrator{};
 Spectrum ZIntegrator{};
@@ -34,14 +36,17 @@ glm::dvec3 Spectrum::toXYZ() const {
 
 //Directly copied magic formula from the book
 glm::dvec3 Spectrum::toRGB() const {
-    glm::dvec3 xyz = toXYZ();
-    glm::dvec3 rgb;
+  glm::dvec3 xyz = toXYZ();
+  glm::dvec3 rgb;
 
-    rgb[0] = 3.240479f * xyz[0] - 1.537150f * xyz[1] - 0.498535f * xyz[2];
-    rgb[1] = -0.969256f * xyz[0] + 1.875991f * xyz[1] + 0.041556f * xyz[2];
-    rgb[2] = 0.055648f * xyz[0] - 0.204043f * xyz[1] + 1.057311f * xyz[2];
+  rgb[0] = 3.240479f * xyz[0] - 1.537150f * xyz[1] - 0.498535f * xyz[2];
+  rgb[1] = -0.969256f * xyz[0] + 1.875991f * xyz[1] + 0.041556f * xyz[2];
+  rgb[2] = 0.055648f * xyz[0] - 0.204043f * xyz[1] + 1.057311f * xyz[2];
 
-    return rgb;
+  if (rgb[0] != 0)
+    std::cout << rgb[0] << ' ' << rgb[1] << ' ' << rgb[2] << '\n';
+
+  return rgb;
 }
 
 double
