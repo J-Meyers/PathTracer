@@ -27,9 +27,11 @@ Spectrum LambertianMaterial::sample(const Ray &ray, const ISect &isect,
   // randomly reflect based on reflectance
   if (random_uniform() < my_reflectance) {
     glm::dvec3 r = reflect(n, ray.getDir());
-    return rad_calc.radiance(Ray(isect.getPt(), r), depth + 1);
+    r = OrthonormalBasis::fromZ(r) *
+        sampleCone(u, v, std::cos(params.cone_angle));
+    return rad_calc.radiance(Ray(isect.getPt() + n * EPSILON, r), depth + 1);
   }
-  Ray outgoing{isect.getPt(),
+  Ray outgoing{isect.getPt() + n * EPSILON,
                OrthonormalBasis::fromZ(n) * sampleCosineHemisphere(u, v)};
   return params.diffuse * rad_calc.radiance(outgoing, depth + 1);
 }
@@ -48,9 +50,12 @@ Spectrum ReflectiveMaterial::sample(const Ray &ray, const ISect &isect,
   // randomly reflect based on reflectance
   if (random_uniform() < params.reflectivity) {
     glm::dvec3 r = reflect(n, ray.getDir());
-    return rad_calc.radiance(Ray(isect.getPt(), r), depth + 1);
+    // Sample randomly
+    r = OrthonormalBasis::fromZ(r) *
+        sampleCone(u, v, std::cos(params.cone_angle));
+    return rad_calc.radiance(Ray(isect.getPt() + n * EPSILON, r), depth + 1);
   }
-  Ray outgoing{isect.getPt(),
+  Ray outgoing{isect.getPt() + n * EPSILON,
                OrthonormalBasis::fromZ(n) * sampleCosineHemisphere(u, v)};
   return params.diffuse * rad_calc.radiance(outgoing, depth + 1);
 }

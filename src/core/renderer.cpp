@@ -2,7 +2,14 @@
 #include "renderer.h"
 #include <iostream>
 
-unsigned char fltToCh(double f) { return static_cast<unsigned char>(f * 255.); }
+constexpr float gamma_ = 2.2f;
+
+unsigned char fltToCh(double f) {
+  return static_cast<unsigned char>(
+      std::lround(std::pow(f, 1. / gamma_) * 255));
+}
+// unsigned char fltToCh(double f) { return static_cast<unsigned char>(f *
+// 255.); }
 RenderResult::RGB SpectrumToRGB(const Spectrum &s) {
   auto rgb_f = glm::clamp(toRGB(s), 0.0, 1.0);
   return {fltToCh(rgb_f.x), fltToCh(rgb_f.y), fltToCh(rgb_f.z)};

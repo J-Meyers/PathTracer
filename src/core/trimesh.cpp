@@ -6,10 +6,10 @@
 void Triangle::generateNormal() {
   glm::dvec3 v01 = verts[1] - verts[0];
   glm::dvec3 v02 = verts[2] - verts[0];
-  glm::dvec3 v21 = verts[1] - verts[2];
-
-  assert(glm::length(v01) != 0.0 && glm::length(v02) != 0.0 &&
-         glm::length(v21) != 0.0);
+  //  glm::dvec3 v21 = verts[1] - verts[2];
+  //
+  //  assert(glm::length(v01) != 0.0 && glm::length(v02) != 0.0 &&
+  //         glm::length(v21) != 0.0);
 
   normal = glm::cross(v01, v02);
   normal = glm::normalize(normal);

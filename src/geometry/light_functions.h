@@ -57,6 +57,29 @@ inline double reflectance(const glm::dvec3 &n, const glm::dvec3 &in, double n1,
   return (rOrthogonal * rOrthogonal + rParallel + rParallel) / 2.0;
 }
 
+// Schlick model of approximating Fresnel reflectances
+inline double schlickModel(const glm::dvec3 &n, const glm::dvec3 &in, double n1,
+                           double n2) {
+  double r0 = (n1 - n2) / (n1 + n2);
+  r0 = r0 * r0;
+  double cosIn = -1 * glm::dot(n, in);
+  double cosOut = cosIn;
+  if (n1 > n2) {
+    double ratio = n1 / n2;
+    double sinOut = ratio * ratio * (1 - cosIn * cosIn);
+
+    // Handle total internal reflection
+    if (sinOut > 1.0) {
+      return 1.0;
+    }
+
+    cosOut = sqrt(1 - sinOut);
+  }
+
+  double x = 1.0 - cosOut;
+  return r0 + (1 - r0) * x * x * x * x * x;
+}
+
 // given uniformly random u,v coordinates in [0, 1] x [0, 1]
 // uniformly samples a disk centered at the origin and with radius 1
 inline glm::dvec2 sampleUnitDisk(double u, double v) {

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <glm/geometric.hpp>
 #include <string>
 
 /*
@@ -39,7 +40,7 @@ impl::loadMaterials(std::istream &in) {
     if (!curMat)
       return;
     if (illum == 3) {
-      curMat->reflectivity = ambientColour.length();
+      curMat->reflectivity = glm::dot(ambientColour, ambientColour);
     }
     curMat = nullptr;
   };
