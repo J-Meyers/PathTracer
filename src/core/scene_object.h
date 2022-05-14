@@ -3,6 +3,7 @@
 #include "geometry/bbox.h"
 #include "geometry/ray.h"
 #include "material.h"
+#include <memory>
 #include <optional>
 
 class Scene;
@@ -41,9 +42,10 @@ class SceneObject : public Geometry {
 public:
   [[nodiscard]] const Material &getMaterial() const { return *material_; }
 
-  void setMaterial(Material *m) { material_ = m; }
+  void setMaterial(std::unique_ptr<Material> m) { material_ = std::move(m); }
 
 protected:
-  SceneObject(Scene *s, Material *m) : Geometry(s), material_(m) {}
-  Material *material_;
+  SceneObject(Scene *s, std::unique_ptr<Material> m)
+      : Geometry(s), material_(std::move(m)) {}
+  std::unique_ptr<Material> material_;
 };

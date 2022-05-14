@@ -12,6 +12,10 @@
 #include <ctre.hpp>
 #include <glm/vec3.hpp>
 
+/*
+ * Copied almost directly from Path Tracer 3 Ways
+ */
+
 struct ObjLoaderOpener {
   virtual ~ObjLoaderOpener() = default;
   virtual std::unique_ptr<std::istream> open(const std::string &filename) = 0;

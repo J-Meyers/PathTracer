@@ -2,10 +2,22 @@ cmake_minimum_required(VERSION 3.20)
 cmake_policy(SET CMP0054 NEW)
 project(PathTracer)
 
+find_program(CONAN conan)
+if (NOT CONAN)
+    message(FATAL_ERROR "Needs conan package manager: please visit https://conan.io and install")
+endif ()
+
 FILE(GLOB cmakes ${CMAKE_SOURCE_DIR}/cmake/*.cmake)
-FOREACH(cmake ${cmakes})
+FOREACH (cmake ${cmakes})
     INCLUDE(${cmake})
-ENDFOREACH(cmake)
+ENDFOREACH (cmake)
+
+conan_check(VERSION 1.14.4 REQUIRED)
+conan_add_remote(NAME bincrafters INDEX 1
+        URL https://api.bintray.com/conan/bincrafters/public-conan)
+conan_cmake_run(CONANFILE conanfile.txt
+        BASIC_SETUP CMAKE_TARGETS
+        BUILD missing)
 
 add_subdirectory(src)
 

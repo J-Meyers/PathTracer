@@ -33,8 +33,8 @@ Spectrum LambertianMaterial::sample(const Ray &ray, const ISect &isect,
                OrthonormalBasis::fromZ(n) * sampleCosineHemisphere(u, v)};
   return params.diffuse * rad_calc.radiance(outgoing, depth + 1);
 }
-Spectrum LambertianMaterial::emmisivity(const Spectrum &prev_radiance) const {
-  return params.emmisive + prev_radiance;
+Spectrum LambertianMaterial::emissivity(const Spectrum &prev_radiance) const {
+  return params.emissive + prev_radiance;
 }
 Spectrum ReflectiveMaterial::sample(const Ray &ray, const ISect &isect,
                                     const RadianceCalculator &rad_calc,
@@ -54,6 +54,13 @@ Spectrum ReflectiveMaterial::sample(const Ray &ray, const ISect &isect,
                OrthonormalBasis::fromZ(n) * sampleCosineHemisphere(u, v)};
   return params.diffuse * rad_calc.radiance(outgoing, depth + 1);
 }
-Spectrum ReflectiveMaterial::emmisivity(const Spectrum &prev_radiance) const {
-  return params.emmisive + prev_radiance;
+Spectrum ReflectiveMaterial::emissivity(const Spectrum &prev_radiance) const {
+  return params.emissive + prev_radiance;
+}
+
+std::unique_ptr<Material> fromParams(const MaterialParameters &p) {
+  if (p.reflectivity < EPSILON) {
+    return std::make_unique<LambertianMaterial>(p);
+  }
+  return std::make_unique<ReflectiveMaterial>(p);
 }

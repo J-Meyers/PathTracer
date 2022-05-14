@@ -6,6 +6,10 @@
 #include <fstream>
 #include <string>
 
+/*
+ * Copied almost entirely directly from Path Tracer 3 Ways
+ */
+
 double impl::asDouble(std::string_view sv) {
   return std::stod(std::string(sv)); // This is dreadful
 }

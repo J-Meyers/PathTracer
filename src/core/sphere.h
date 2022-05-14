@@ -4,8 +4,9 @@
 
 class Sphere : public SceneObject {
 public:
-  Sphere(Scene *s, Material *m, const glm::dvec3 &center, double r)
-      : SceneObject(s, m), c_{center}, r_{r} {};
+  Sphere(Scene *s, std::unique_ptr<Material> m, const glm::dvec3 &center,
+         double r)
+      : SceneObject(s, std::move(m)), c_{center}, r_{r} {};
 
   void computeBoundingBox() override;
   [[nodiscard]] std::optional<ISect> intersect(const Ray &ray) const override;

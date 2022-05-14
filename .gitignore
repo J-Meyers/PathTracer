@@ -3,3 +3,7 @@ third-party/
 cmake-build-debug/
 cmake-build-release/
 reference/
+conan.lock
+conanbuildinfo.txt
+conaninfo.txt
+graph_info.json

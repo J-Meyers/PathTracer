@@ -33,6 +33,6 @@ Spectrum RadianceCalculator::radiance(const Ray &ray, int depth) const {
     }
   }
   auto avg_pre_addition = res / (std::pow(n_samples, 2));
-  auto result = mat.emmisivity(avg_pre_addition);
+  auto result = mat.emissivity(avg_pre_addition);
   return result;
 }

@@ -4,8 +4,8 @@
 
 class Triangle : public SceneObject {
 public:
-  Triangle(Scene *s, Material *m, const glm::dvec3 *vertices)
-      : SceneObject(s, m) {
+  Triangle(Scene *s, std::unique_ptr<Material> m, const glm::dvec3 *vertices)
+      : SceneObject(s, std::move(m)) {
     for (int i = 0; i < 3; i++) {
       this->verts[i] = vertices[i];
     }

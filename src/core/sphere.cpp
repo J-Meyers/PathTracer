@@ -1,5 +1,4 @@
 #include "sphere.h"
-#include "epsilon.h"
 #include "isect.h"
 #include <glm/gtx/norm.hpp>
 
@@ -36,7 +35,7 @@ std::optional<ISect> Sphere::intersect(const Ray &ray) const {
   i.setT(t);
   i.setPt(ray(t));
   i.setN(glm::normalize(i.getPt() - c_));
-  i.setMat(material_);
+  i.setMat(material_.get());
 
   return i;
 }

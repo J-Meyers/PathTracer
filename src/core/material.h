@@ -4,6 +4,7 @@
 #include "geometry/ray.h"
 #include "geometry/spectrum.h"
 #include "parser/material_params.h"
+#include <memory>
 
 class RadianceCalculator;
 class ISect;
@@ -20,7 +21,7 @@ public:
                                         double v) const = 0;
 
   [[nodiscard]] virtual Spectrum
-  emmisivity(const Spectrum &prev_radiance) const = 0;
+  emissivity(const Spectrum &prev_radiance) const = 0;
 };
 
 class LambertianMaterial : public Material {
@@ -33,7 +34,7 @@ public:
                                 double u, double v) const override;
 
   [[nodiscard]] Spectrum
-  emmisivity(const Spectrum &prev_radiance) const override;
+  emissivity(const Spectrum &prev_radiance) const override;
 
 private:
   MaterialParameters params;
@@ -49,7 +50,7 @@ public:
                                 double u, double v) const override;
 
   [[nodiscard]] Spectrum
-  emmisivity(const Spectrum &prev_radiance) const override;
+  emissivity(const Spectrum &prev_radiance) const override;
 
 private:
   MaterialParameters params;
@@ -63,7 +64,9 @@ class DummyMaterial : public Material {
   }
 
   [[nodiscard]] Spectrum
-  emmisivity(const Spectrum &prev_radiance) const override {
+  emissivity(const Spectrum &prev_radiance) const override {
     return prev_radiance;
   }
 };
+
+std::unique_ptr<Material> fromParams(MaterialParameters p);

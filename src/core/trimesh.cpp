@@ -72,7 +72,7 @@ bool Triangle::intersectPlane(const glm::dvec3 &p, const glm::dvec3 &dir,
     i.setT(t);
     i.setPt(ray(t));
     i.setN(normal);
-    i.setMat(material_);
+    i.setMat(material_.get());
     return i;
   }
 

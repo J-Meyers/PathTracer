@@ -30,9 +30,8 @@ int main() {
   tri[1] = {0, 1, 0};
   tri[2] = {1, 0, 0};
   DummyMaterial dumb_mat;
-  auto triangle = std::make_unique<Triangle>(&scene, &dumb_mat, tri);
-  triangle->setMaterial(&simple_mat);
-  scene.add(std::move(triangle));
+  //  auto triangle = std::make_unique<Triangle>(&scene, &dumb_mat, tri);
+  //  scene.add(std::move(triangle));
 
   //  auto sphere = std::make_unique<Sphere>(&scene, &simple_mat);
   //  auto transform_mat = glm::translate(glm::mat4(1.0f), glm::vec3{-.28, .281,
