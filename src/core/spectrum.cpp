@@ -2,11 +2,11 @@
 
 #include <iostream>
 
-Spectrum XIntegrator{};
-Spectrum YIntegrator{};
-Spectrum ZIntegrator{};
+SampledSpectrum XIntegrator{};
+SampledSpectrum YIntegrator{};
+SampledSpectrum ZIntegrator{};
 
-void Spectrum::makeIntegrators() {
+void SampledSpectrum::makeIntegrators() {
   int step =
       (endWaveLength - beginWaveLength) / numSamples; // assumes integer step
   for (int i = 0; i < numSamples; ++i) {
@@ -19,23 +19,23 @@ void Spectrum::makeIntegrators() {
   }
 }
 
-//numerical integration of the spectrum to convert it to XYZ
-//does integration as a linear combination of the sample intensities
-//directly copied from the book
-glm::dvec3 Spectrum::toXYZ() const {
-    glm::dvec3 result(0.0);
+// numerical integration of the SampledSpectrum to convert it to XYZ
+// does integration as a linear combination of the sample intensities
+// directly copied from the book
+glm::dvec3 SampledSpectrum::toXYZ() const {
+  glm::dvec3 result(0.0);
 
-    for (int i = 0; i < numSamples; ++i) {
-        result[0] += XIntegrator[i] * intensity[i];
-        result[1] += YIntegrator[i] * intensity[i];
-        result[2] += ZIntegrator[i] * intensity[i];
-    }
+  for (int i = 0; i < numSamples; ++i) {
+    result[0] += XIntegrator[i] * intensity[i];
+    result[1] += YIntegrator[i] * intensity[i];
+    result[2] += ZIntegrator[i] * intensity[i];
+  }
 
-    return result;
+  return result;
 }
 
-//Directly copied magic formula from the book
-glm::dvec3 Spectrum::toRGB() const {
+// Directly copied magic formula from the book
+glm::dvec3 SampledSpectrum::toRGB() const {
   glm::dvec3 xyz = toXYZ();
   glm::dvec3 rgb;
 
@@ -49,9 +49,9 @@ glm::dvec3 Spectrum::toRGB() const {
   return rgb;
 }
 
-double
-Spectrum::average(std::array<int, nCIESamples> wavelength, std::array<double, nCIESamples> weights, int left,
-                  int right) {
+double SampledSpectrum::average(std::array<int, nCIESamples> wavelength,
+                                std::array<double, nCIESamples> weights,
+                                int left, int right) {
     //avoid edge cases
     assert(nCIESamples > 1);
     assert(left < right);

@@ -15,7 +15,7 @@ public:
 
   void add(std::unique_ptr<Geometry> geometry);
 
-  std::optional<ISect> intersect(Ray &ray) const;
+  std::optional<ISect> intersect(const Ray &ray) const;
 
   [[nodiscard]] const Camera &getCamera() const { return camera_; }
 
@@ -25,10 +25,16 @@ public:
     return bounding_box_;
   }
 
+  void setBackgroundRadiance(const Spectrum &s) { background_radiance_ = s; }
+
+  [[nodiscard]] Spectrum backgroundRadiance(const Ray &r) const;
+
 private:
   Camera camera_;
 
   BoundingBox bounding_box_;
 
   std::vector<std::unique_ptr<Geometry>> objects_;
+
+  Spectrum background_radiance_;
 };

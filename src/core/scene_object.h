@@ -25,7 +25,7 @@ class Geometry : public SceneElement {
 public:
     explicit Geometry(Scene *s) : SceneElement(s) {}
 
-    std::optional<ISect> intersect(Ray &ray) const;
+    std::optional<ISect> intersect(const Ray &ray) const;
 
     virtual void computeBoundingBox();
 

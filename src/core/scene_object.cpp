@@ -6,30 +6,20 @@
 
 // Copy-pasted then modified from ray tracer
 
-std::optional<ISect> Geometry::intersect(Ray &r) const {
-    double tmin, tmax;
-    if (!(bounding_box_.intersect(r, tmin, tmax)))
-        return std::nullopt;
-    // Transform the ray into the object's local coordinate space
-    glm::dvec3 pos = transform_node_->globalToLocal(r.getPos());
-    glm::dvec3 dir = transform_node_->globalToLocal(r.getPos() +
-                                                    r.getDir()) -
-                     pos;
-    double length = glm::length(dir);
-    dir = glm::normalize(dir);
-    // Backup World pos/dir, and switch to local pos/dir
-    glm::dvec3 Wpos = r.getPos();
-    glm::dvec3 Wdir = r.getDir();
-    r.setPos(pos);
-    r.setDir(dir);
+std::optional<ISect> Geometry::intersect(const Ray &r) const {
+  double tmin, tmax;
+  if (!(bounding_box_.intersect(r, tmin, tmax)))
+    return std::nullopt;
+  // Transform the ray into the object's local coordinate space
+  glm::dvec3 pos = transform_node_->globalToLocal(r.getPos());
+  glm::dvec3 dir =
+      transform_node_->globalToLocal(r.getPos() + r.getDir()) - pos;
+  double length = glm::length(dir);
+  dir = glm::normalize(dir);
 
-    auto i = intersectLocal(r);
+  auto i = intersectLocal(Ray{pos, dir});
 
-    // Restore World pos/dir
-    r.setPos(Wpos);
-    r.setDir(Wdir);
-
-    if (i.has_value()) {
+  if (i.has_value()) {
         // Transform the intersection point & normal returned back into
         // global space.
         i->setN(transform_node_->localToGlobalNormal(i->getN()));

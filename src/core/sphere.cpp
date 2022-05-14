@@ -38,7 +38,6 @@ std::optional<ISect> Sphere::intersectLocal(const Ray &ray) const {
     i.setN(glm::normalize(ray(t2)));
   }
   i.setMat(material_);
-  i.setSpectrum(material_->sample(ray));
 
   return i;
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/radiance_calculator.h"
 #include "scene.h"
 #include "spectrum.h"
 #include <glm/vec3.hpp>
@@ -33,18 +34,16 @@ struct RenderResult {
 class Renderer {
 public:
   Renderer(const Scene &scene, int width, int height)
-      : scene_(scene), width_(width), height_(height) {}
+      : scene_(scene), width_(width), height_(height), rad_calc_(scene_) {}
 
   RenderResult renderScene();
 
-  RenderResult::RGB tracePixel(int i, int j);
-
-  Spectrum tracePath(Ray &ray, int depth);
+  Spectrum tracePixel(int i, int j);
 
 private:
   const Scene &scene_;
   int width_;
   int height_;
-  int samples_per_pixel_ = 1;
-  int max_depth_ = 6;
+  int samples_per_pixel_ = 100;
+  const RadianceCalculator rad_calc_;
 };

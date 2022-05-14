@@ -6,7 +6,7 @@ void Scene::add(std::unique_ptr<Geometry> geometry) {
   objects_.push_back(std::move(geometry));
 }
 
-std::optional<ISect> Scene::intersect(Ray &ray) const {
+std::optional<ISect> Scene::intersect(const Ray &ray) const {
   std::optional<ISect> res;
   for (const auto &object : objects_) {
     if (auto curr = object->intersect(ray);
@@ -15,4 +15,7 @@ std::optional<ISect> Scene::intersect(Ray &ray) const {
     }
   }
   return res;
+}
+Spectrum Scene::backgroundRadiance(const Ray &) const {
+  return background_radiance_;
 }

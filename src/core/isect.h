@@ -1,8 +1,9 @@
 
 #pragma once
 
-#include "material.h"
-#include "scene_object.h"
+class Material;
+class SceneObject;
+
 #include "spectrum.h"
 #include <glm/vec3.hpp>
 #include <memory>
@@ -13,6 +14,12 @@ public:
 
   [[nodiscard]] double getT() const { return t_; }
 
+  [[nodiscard]] glm::dvec3 getPt() const { return pt_; }
+
+  [[nodiscard]] const Material &getMat() const { return *mat_; }
+
+  void setPt(const glm::dvec3 &pt) { pt_ = pt; }
+
   void setN(glm::dvec3 face_normal) { face_normal_ = face_normal; }
 
   void setT(double t) { t_ = t; }
@@ -21,14 +28,10 @@ public:
 
   void setObj(SceneObject *o) { obj_ = o; }
 
-  void setSpectrum(const Spectrum &s) { spectrum_ = s; }
-
-  [[nodiscard]] Spectrum getSpectrum() const { return spectrum_; }
-
 private:
+  glm::dvec3 pt_;
   glm::dvec3 face_normal_;
   double t_;
   Material *mat_;
   SceneObject *obj_;
-  Spectrum spectrum_;
 };

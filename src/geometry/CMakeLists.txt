@@ -7,5 +7,8 @@ add_library(geometry
         transform_node.cpp
         transform_node.h
         bbox.cpp
-        bbox.h)
+        bbox.h
+        light_functions.h
+        light_functions.cpp
+        )
 target_include_directories(geometry INTERFACE ..)
