@@ -4,7 +4,7 @@
 class Material;
 class SceneObject;
 
-#include "spectrum.h"
+#include "geometry/spectrum.h"
 #include <glm/vec3.hpp>
 #include <memory>
 

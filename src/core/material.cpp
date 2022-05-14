@@ -36,3 +36,24 @@ Spectrum LambertianMaterial::sample(const Ray &ray, const ISect &isect,
 Spectrum LambertianMaterial::emmisivity(const Spectrum &prev_radiance) const {
   return params.emmisive + prev_radiance;
 }
+Spectrum ReflectiveMaterial::sample(const Ray &ray, const ISect &isect,
+                                    const RadianceCalculator &rad_calc,
+                                    int depth, double u, double v) const {
+  glm::dvec3 n = isect.getN();
+  // TODO: check the correct direction of this
+  if (glm::dot(n, ray.getDir()) > 0.0) {
+    n *= -1;
+  }
+
+  // randomly reflect based on reflectance
+  if (random_uniform() < params.reflectivity) {
+    glm::dvec3 r = reflect(n, ray.getDir());
+    return rad_calc.radiance(Ray(isect.getPt(), r), depth + 1);
+  }
+  Ray outgoing{isect.getPt(),
+               OrthonormalBasis::fromZ(n) * sampleCosineHemisphere(u, v)};
+  return params.diffuse * rad_calc.radiance(outgoing, depth + 1);
+}
+Spectrum ReflectiveMaterial::emmisivity(const Spectrum &prev_radiance) const {
+  return params.emmisive + prev_radiance;
+}

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "camera.h"
-#include "geometry/transform_node.h"
 #include "isect.h"
 #include "scene_object.h"
 #include <memory>
@@ -11,7 +10,6 @@
 class Scene {
 public:
   Scene(const Camera &camera) : camera_(camera) {}
-  TransformNodeRoot root_;
 
   void add(std::unique_ptr<Geometry> geometry);
 

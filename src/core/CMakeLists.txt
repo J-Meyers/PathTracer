@@ -13,8 +13,8 @@ add_library(core
         renderer.cpp
         scene_object.cpp
         scene_object.h
-        spectrum.cpp
-        spectrum.h sphere.cpp sphere.h trimesh.cpp trimesh.h radiance_calculator.h radiance_calculator.cpp)
+        ../geometry/spectrum.cpp
+        ../geometry/spectrum.h sphere.cpp sphere.h trimesh.cpp trimesh.h radiance_calculator.h radiance_calculator.cpp)
 
 target_include_directories(core INTERFACE ..)
 target_link_libraries(core geometry)

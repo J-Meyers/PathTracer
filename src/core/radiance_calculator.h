@@ -3,8 +3,8 @@
 
 class Scene;
 
-#include "core/spectrum.h"
 #include "geometry/ray.h"
+#include "geometry/spectrum.h"
 
 class RadianceCalculator {
 public:

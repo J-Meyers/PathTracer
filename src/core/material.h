@@ -1,21 +1,12 @@
 
 #pragma once
 
-#include "core/spectrum.h"
 #include "geometry/ray.h"
+#include "geometry/spectrum.h"
+#include "parser/material_params.h"
 
 class RadianceCalculator;
-
-struct BSSRDF {};
 class ISect;
-
-struct MaterialParameters {
-  float ior;        // index of refcation
-  float cone_angle; // reflection cone angle
-  Spectrum diffuse;
-  Spectrum emmisive;
-  float reflectivity;
-};
 
 class Material {
 public:
@@ -34,7 +25,8 @@ public:
 
 class LambertianMaterial : public Material {
 public:
-  LambertianMaterial(const MaterialParameters &params) : params(params) {}
+  explicit LambertianMaterial(const MaterialParameters &params)
+      : params(params) {}
 
   [[nodiscard]] Spectrum sample(const Ray &ray, const ISect &isect,
                                 const RadianceCalculator &rad_calc, int depth,
@@ -47,10 +39,20 @@ private:
   MaterialParameters params;
 };
 
-class MaterialInteraction {
-  [[nodiscard]] Spectrum sample(const Ray &ray);
+class ReflectiveMaterial : public Material {
+public:
+  explicit ReflectiveMaterial(const MaterialParameters &params)
+      : params(params) {}
 
-  Material *m;
+  [[nodiscard]] Spectrum sample(const Ray &ray, const ISect &isect,
+                                const RadianceCalculator &rad_calc, int depth,
+                                double u, double v) const override;
+
+  [[nodiscard]] Spectrum
+  emmisivity(const Spectrum &prev_radiance) const override;
+
+private:
+  MaterialParameters params;
 };
 
 class DummyMaterial : public Material {

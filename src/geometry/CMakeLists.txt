@@ -4,8 +4,6 @@ add_library(geometry
         orthonormal_basis.cpp
         orthonormal_basis.h
         constants.h
-        transform_node.cpp
-        transform_node.h
         bbox.cpp
         bbox.h
         light_functions.h

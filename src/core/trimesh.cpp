@@ -1,5 +1,6 @@
 #include "trimesh.h"
 #include "core/isect.h"
+#include <glm/geometric.hpp>
 
 // ASSUMPTIONS: winding order of triangles is consistent, they aren't degenerate
 void Triangle::generateNormal() {
@@ -15,11 +16,9 @@ void Triangle::generateNormal() {
 }
 
 // local coordinates are just global coords for triangles
-BoundingBox Triangle::computeLocalBoundingBox() {
-  BoundingBox b;
-  b.setMin(glm::min(glm::min(verts[0], verts[1]), verts[2]));
-  b.setMax(glm::max(glm::max(verts[0], verts[1]), verts[2]));
-  return b;
+void Triangle::computeBoundingBox() {
+  bounding_box_.setMin(glm::min(glm::min(verts[0], verts[1]), verts[2]));
+  bounding_box_.setMax(glm::max(glm::max(verts[0], verts[1]), verts[2]));
 }
 
 bool Triangle::intersectPlane(const glm::dvec3 &p, const glm::dvec3 &dir,
@@ -39,8 +38,11 @@ bool Triangle::intersectPlane(const glm::dvec3 &p, const glm::dvec3 &dir,
   return true;
 }
 
-[[nodiscard]] std::optional<ISect>
-Triangle::intersectLocal(const Ray &ray) const {
+[[nodiscard]] std::optional<ISect> Triangle::intersect(const Ray &ray) const {
+  double tmin, tmax;
+  if (!bounding_box_.intersect(ray, tmin, tmax)) {
+    return std::nullopt;
+  }
   glm::dvec3 i_p;
   double t;
   if (intersectPlane(ray.getPos(), ray.getDir(), t, i_p)) {
@@ -68,6 +70,7 @@ Triangle::intersectLocal(const Ray &ray) const {
 
     ISect i;
     i.setT(t);
+    i.setPt(ray(t));
     i.setN(normal);
     i.setMat(material_);
     return i;

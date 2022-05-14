@@ -1,13 +1,16 @@
 #pragma once
 #include "scene_object.h"
+#include <glm/vec3.hpp>
 
 class Sphere : public SceneObject {
 public:
-  Sphere(Scene *s, Material *m) : SceneObject(s, m){};
+  Sphere(Scene *s, Material *m, const glm::dvec3 &center, double r)
+      : SceneObject(s, m), c_{center}, r_{r} {};
 
-  BoundingBox computeLocalBoundingBox() override;
+  void computeBoundingBox() override;
+  [[nodiscard]] std::optional<ISect> intersect(const Ray &ray) const override;
 
-protected:
-  [[nodiscard]] std::optional<ISect>
-  intersectLocal(const Ray &ray) const override;
+private:
+  glm::dvec3 c_;
+  double r_;
 };

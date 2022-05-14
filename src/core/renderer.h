@@ -1,8 +1,8 @@
 #pragma once
 
 #include "core/radiance_calculator.h"
+#include "geometry/spectrum.h"
 #include "scene.h"
-#include "spectrum.h"
 #include <glm/vec3.hpp>
 #include <memory>
 

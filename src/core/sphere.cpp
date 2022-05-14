@@ -3,19 +3,21 @@
 #include "isect.h"
 #include <glm/gtx/norm.hpp>
 
-BoundingBox Sphere::computeLocalBoundingBox() {
-  BoundingBox b;
-  b.setMin(glm::dvec3(-1.0, -1.0, -1.0));
-  b.setMax(glm::dvec3(1.0, 1.0, 1.0));
-  return b;
+void Sphere::computeBoundingBox() {
+  bounding_box_.setMin(glm::dvec3(-1.0, -1.0, -1.0));
+  bounding_box_.setMax(glm::dvec3(1.0, 1.0, 1.0));
 }
 
 // precondition: ray direction is normalized
-std::optional<ISect> Sphere::intersectLocal(const Ray &ray) const {
+std::optional<ISect> Sphere::intersect(const Ray &ray) const {
+  double tmin, tmax;
+  if (!bounding_box_.intersect(ray, tmin, tmax)) {
+    return std::nullopt;
+  }
 
-  glm::dvec3 v = -ray.getPos();
+  glm::dvec3 v = c_ - ray.getPos();
   double b = glm::dot(v, ray.getDir());
-  double disc = b * b - glm::length2(v) + 1;
+  double disc = b * b - glm::length2(v) + r_ * r_;
 
   if (disc < 0.0) {
     return std::nullopt;
@@ -29,14 +31,11 @@ std::optional<ISect> Sphere::intersectLocal(const Ray &ray) const {
   }
 
   double t1 = b - disc;
-  ISect i;
-  if (t1 > EPSILON) {
-    i.setT(t1);
-    i.setN(glm::normalize(ray(t1)));
-  } else {
-    i.setT(t2);
-    i.setN(glm::normalize(ray(t2)));
-  }
+  ISect i{};
+  auto t = t1 > EPSILON ? t1 : t2;
+  i.setT(t);
+  i.setPt(ray(t));
+  i.setN(glm::normalize(i.getPt() - c_));
   i.setMat(material_);
 
   return i;

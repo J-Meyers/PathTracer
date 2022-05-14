@@ -31,7 +31,6 @@ int main() {
   tri[2] = {1, 0, 0};
   DummyMaterial dumb_mat;
   auto triangle = std::make_unique<Triangle>(&scene, &dumb_mat, tri);
-  triangle->setTransform(&scene.root_);
   triangle->setMaterial(&simple_mat);
   scene.add(std::move(triangle));
 
