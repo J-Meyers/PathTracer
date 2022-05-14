@@ -69,4 +69,4 @@ class DummyMaterial : public Material {
   }
 };
 
-std::unique_ptr<Material> fromParams(MaterialParameters p);
+std::unique_ptr<Material> fromParams(const MaterialParameters &p);

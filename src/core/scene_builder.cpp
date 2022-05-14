@@ -1,4 +1,5 @@
 #include "scene_builder.h"
+#include "material.h"
 #include "sphere.h"
 #include "trimesh.h"
 

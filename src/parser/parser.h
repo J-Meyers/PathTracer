@@ -21,6 +21,19 @@ struct ObjLoaderOpener {
   virtual std::unique_ptr<std::istream> open(const std::string &filename) = 0;
 };
 
+struct DirRelativeOpener : ObjLoaderOpener {
+  std::string dir_;
+  explicit DirRelativeOpener(std::string dir) : dir_(std::move(dir)) {}
+  [[nodiscard]] std::unique_ptr<std::istream>
+  open(const std::string &filename) override {
+    auto fullname = dir_ + "/" + filename;
+    auto res = std::make_unique<std::ifstream>(fullname);
+    if (!*res)
+      throw std::runtime_error("Unable to open " + fullname);
+    return res;
+  }
+};
+
 template <typename SceneBuilder>
 void loadObjFile(std::istream &in, ObjLoaderOpener &opener, SceneBuilder &sb);
 

@@ -12,6 +12,8 @@ class SceneBuilder {
   Scene scene_;
 
 public:
+  SceneBuilder(Camera s) : scene_(s) {}
+
   void addTriangle(const glm::dvec3 &v0, const glm::dvec3 &v1,
                    const glm::dvec3 &v2, const MaterialParameters &material);
 

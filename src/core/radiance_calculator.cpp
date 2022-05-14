@@ -15,6 +15,10 @@ Spectrum RadianceCalculator::radiance(const Ray &ray, int depth) const {
     return Spectrum(0.f);
   }
 
+  if (++num_rays_cast_ % 100'000 == 0) {
+    std::cout << "Rays cast: " << num_rays_cast_ << '\n';
+  }
+
   auto n_samples = depth < first_n_samples_ ? n_samples_per_ : 1;
 
   auto isect = scene_.intersect(ray);

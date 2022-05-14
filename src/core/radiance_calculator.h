@@ -17,4 +17,6 @@ private:
   const int max_depth_ = 5;
   const int first_n_samples_ = 1;
   const int n_samples_per_ = 4;
+
+  mutable int num_rays_cast_ = 0;
 };
