@@ -44,6 +44,6 @@ private:
   const Scene &scene_;
   int width_;
   int height_;
-  int samples_per_pixel_ = 20;
+  int samples_per_pixel_ = 100;
   const RadianceCalculator rad_calc_;
 };

@@ -36,8 +36,8 @@ RenderResult renderSphereCornell(int w, int h) {
   glm::dvec3 lookat(0, 1, 0);
   glm::dvec3 look = glm::normalize(lookat - eye);
   double vertical_fov = 50.0;
-  Camera camera(eye, look, up, h, w, toRads(vertical_fov), .01,
-                std::sqrt(10.0));
+  // Short .5, long 4
+  Camera camera(eye, look, up, h, w, toRads(vertical_fov), .01, 4);
 
   SceneBuilder sb(camera);
   DirRelativeOpener opener("../../scenes");
@@ -45,9 +45,9 @@ RenderResult renderSphereCornell(int w, int h) {
   loadObjFile(*in, opener, sb);
 
   // Added Sphere
-  MaterialParameters special_sphere_params{
-      1.0, .001, {.999, .999, .999}, {}, .95};
+  MaterialParameters special_sphere_params{3, .001, {.999, .999, .999}, {}, 0};
   sb.addSphere(glm::dvec3{-.38, .281, .38}, .28, special_sphere_params);
+  sb.setEnvironmentColour({0.0725, 0.071, 0.068});
 
   Renderer r(sb.scene(), w, h);
   return r.renderScene();
@@ -108,8 +108,8 @@ int main() {
     SampledSpectrum::initRGBConversion();
   }
 
-  int w = 255;
-  int h = 255;
+  int w = 512;
+  int h = 512;
   auto img = renderSphereCornell(w, h);
 
   FILE *f = fopen("../../image.ppm", "w"); // Write image to PPM file.

@@ -18,5 +18,5 @@ private:
   const int first_n_samples_ = 1;
   const int n_samples_per_ = 4;
 
-  mutable int num_rays_cast_ = 0;
+  mutable unsigned long long num_rays_cast_ = 0;
 };
